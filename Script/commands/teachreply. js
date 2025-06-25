@@ -1,0 +1,13 @@
+const fs = require("fs");
+const path = __dirname + "/../../data/teach.json";
+
+module.exports = function ({ api, event }) {
+  if (!fs.existsSync(path)) return;
+
+  const data = JSON.parse(fs.readFileSync(path));
+  const msg = event.body?.trim();
+
+  if (data[msg]) {
+    return api.sendMessage(data[msg], event.threadID, event.messageID);
+  }
+};
